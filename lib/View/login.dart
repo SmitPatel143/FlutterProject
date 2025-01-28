@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_project/core/services/api_service.dart";
 
-
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -39,6 +38,7 @@ class _LoginState extends State<Login> {
   }
 
   void _submitForm() {
+    if (_formKey.currentState!.validate()) {
       authService.loginUser(_emailController.text, _passwordController.text);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -46,6 +46,7 @@ class _LoginState extends State<Login> {
           backgroundColor: Colors.green,
         ),
       );
+    }
   }
 
   @override
@@ -65,8 +66,8 @@ class _LoginState extends State<Login> {
                 width: 300, // Specify desired width
                 height: 400,
                 child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 1, horizontal: 14),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 14),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -167,8 +168,6 @@ class _LoginState extends State<Login> {
         borderSide: BorderSide(color: Colors.red),
         borderRadius: BorderRadius.circular(10),
       ),
-
-
     );
   }
 }

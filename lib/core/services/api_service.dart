@@ -16,17 +16,15 @@ class AuthService {
         data: formData,
         options: Options(
           contentType: Headers.formUrlEncodedContentType,
-          // Enable cookies
           followRedirects: true,
           validateStatus: (status) => status! < 500,
           extra: {
             'withCredentials': true,
           },
         ),
-
       );
       print(response);
-    }catch(error) {
+    } catch (error) {
       print(error);
     }
   }

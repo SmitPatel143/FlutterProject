@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/View/login.dart';
+import 'package:flutter_project/core/views/shopping_page.dart';
+import 'package:flutter_project/core/views/signup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,19 +22,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        // appBar: AppBar(
-        //   title: Text('My App Bar'),
-        //   centerTitle: true,
-        //   backgroundColor: Colors.deepPurpleAccent,
-        //   leading: Icon(Icons.menu),
-        //   actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-        // ),
-        body: Column(
-          children: [
-            Login()
-          ]
-          // child: QuestionsPage(),
-        )
+        body: SignUp()
 
         // bottomNavigationBar: BottomNavBar(
         //   currentIndex: _selectedIndex,
