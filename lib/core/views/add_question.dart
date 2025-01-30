@@ -4,7 +4,6 @@ class AddQuestions extends StatelessWidget {
   AddQuestions({super.key});
 
   final _formKey = GlobalKey<FormState>();
-  AutovalidateMode? _autoValidateMode;
 
   setState(){
     print("Inside the setState");
@@ -27,7 +26,7 @@ class AddQuestions extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
-                  autovalidateMode: _autoValidateMode,
+                  autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +45,6 @@ class AddQuestions extends StatelessWidget {
                       ),
                       TextFormField(
                         minLines: 1,
-
                         maxLines: 3,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
@@ -67,6 +65,7 @@ class AddQuestions extends StatelessWidget {
                       TextFormField(
                         minLines: 1,
                         maxLines: 3,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           value = value ?? ''.trim();
                           if (value.isEmpty) {
@@ -85,6 +84,7 @@ class AddQuestions extends StatelessWidget {
                       TextFormField(
                         minLines: 1,
                         maxLines: 3,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           value = value ?? ''.trim();
                           if (value.isEmpty) {
@@ -103,6 +103,7 @@ class AddQuestions extends StatelessWidget {
                       TextFormField(
                         minLines: 1,
                         maxLines: 3,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           value = value ?? ''.trim();
                           if (value.isEmpty) {
@@ -121,6 +122,7 @@ class AddQuestions extends StatelessWidget {
                       TextFormField(
                         minLines: 1,
                         maxLines: 3,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           value = value ?? ''.trim();
                           if (value.isEmpty) {
@@ -139,6 +141,7 @@ class AddQuestions extends StatelessWidget {
                       TextFormField(
                         minLines: 1,
                         maxLines: 3,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "This field is required";
@@ -169,11 +172,8 @@ class AddQuestions extends StatelessWidget {
                             ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                              } else {
-                                _autoValidateMode =
-                                    AutovalidateMode.onUserInteraction;
-
                               }
+
                             },
                             child: Text("Submit")),
                       )

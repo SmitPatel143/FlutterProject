@@ -1,10 +1,12 @@
 class Questions {
+  int? id;
   final String question;
   final String option1;
   final String option2;
   final String option3;
   final String option4;
   final int correctAnswerIndex;
+
 
   Questions(
       {required this.question,
@@ -21,6 +23,7 @@ class Questions {
       "option2": option2,
       "option3": option3,
       "option4": option4,
+      "correctAnswerIndex": correctAnswerIndex,
     };
   }
 }
