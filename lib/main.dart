@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/View/login.dart';
 import 'package:flutter_project/core/views/add_question.dart';
+import 'package:flutter_project/core/views/category.dart';
+import 'package:flutter_project/core/views/quiz.dart';
 import 'package:flutter_project/core/views/shopping_page.dart';
 import 'package:flutter_project/core/views/signup.dart';
 
-void main() {
+import 'core/services/category_service.dart';
+
+Future<void> main() async {
+
+
   runApp(const MyApp());
 }
 
@@ -20,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: AddQuestions()
+      home: Scaffold(body: Quiz()
 
           // bottomNavigationBar: BottomNavBar(
           //   currentIndex: _selectedIndex,

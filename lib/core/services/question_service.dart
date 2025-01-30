@@ -56,22 +56,6 @@ class QuestionService {
 
     final List<Map<String, Object?>> questionsMap = await db.query('Questions');
 
-    return [
-      for (final {
-            'id': id,
-            'question': question,
-            'option1': option1,
-            'option2': option2,
-            'option3': option3,
-            'option4': option4,
-          } in questionsMap)
-        Questions.sendData(
-            id: id,
-            question: question,
-            option1: option1,
-            option2: option2,
-            option3: option3,
-            option4: option4, correctAnswerIndex: null),
-    ];
+    return [];
   }
 }
