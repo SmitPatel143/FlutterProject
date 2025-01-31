@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 import '../constants/globals.dart';
 
 class LocalDatabase {
-
   static Database? database;
   static LocalDatabase? localDatabase;
 
@@ -25,13 +24,15 @@ class LocalDatabase {
     try {
       final dbPath = await getDatabasesPath();
       final pathToDatabase = path.join(dbPath, Globals.localDatabaseName);
-      return await openDatabase(pathToDatabase, version: Globals.localDatabaseVersion);
+      return await openDatabase(pathToDatabase,
+          version: Globals.localDatabaseVersion);
     } catch (error) {
       throw Exception("Failed Connect with the local database: $error");
     }
   }
 
-  static Future<void> createTable({required TableDefinition tableDefinition}) async {
+  static Future<void> createTable(
+      {required TableDefinition tableDefinition}) async {
     try {
       final Database database = await _getDatabase;
       final List<String> columnDefinitions =
@@ -58,16 +59,35 @@ class LocalDatabase {
     }
   }
 
-  Future<List<Map<String, Object?>>> getTableData<T>({required String tableName, String? condition}) async {
+  static Future<int> insertData(
+      {required String tableName, required Map<String, Object?> data}) async {
     try {
       final Database database = await _getDatabase;
-      final String getQuery = '''
-        SELECT * FROM $tableName
-        ${condition != null ? 'WHERE $condition' : ''}
-      ''';
-      return database.query(getQuery);
+      return database.insert(tableName, data);
+    } catch (error) {
+      throw Exception("Failed to insert data into $tableName: $error");
+    }
+  }
+
+  static Future<List<Map<String, Object?>>> getTableData<T>(
+      {required String tableName, String? condition}) async {
+    try {
+      final Database database = await _getDatabase;
+      return await database.query(tableName, where: condition);
     } catch (error) {
       throw Exception("Failed to get table data of $tableName: $error");
+    }
+  }
+
+  static Future<bool> isTableExists(String tableName) async {
+    try {
+      final Database database = await _getDatabase;
+      final result = await database.rawQuery(
+          "SELECT COUNT(*) as count FROM sqlite_master WHERE type='table' AND name='$tableName'");
+      print("Existing Table result $result");
+      return result[0]["count"] != 0;
+    } catch (error) {
+      throw Exception("Failed to check table existence: $error");
     }
   }
 }

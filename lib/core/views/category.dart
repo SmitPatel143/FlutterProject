@@ -1,32 +1,24 @@
 import "package:flutter/material.dart";
 import "package:flutter_project/core/controllers/category_controller.dart";
+import "package:flutter_project/core/views/quiz.dart";
 import "package:get/get.dart";
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CategoryAdd extends StatelessWidget {
   final CategoryController categoryController = Get.put(CategoryController());
-  ValueNotifier<bool> isLoading = ValueNotifier(true);
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  RxList<String> categoryDetails = <String>[].obs;
 
   CategoryAdd({super.key}) {
-    Future.delayed(const Duration(milliseconds: 3000), () async {
-      _loadInitialData();
-    });
-  }
-
-  void _loadInitialData() async {
-    try {
-      isLoading.value = true;
-      categoryController.availableCategory;
-    } finally {
-      isLoading.value = false;
-    }
+    categoryDetails = categoryController.availableCategory;
   }
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    final CategoryController categoryController = Get.put(CategoryController());
     return ValueListenableBuilder<bool>(
-        valueListenable: isLoading,
+        valueListenable: categoryController.isLoading,
         builder: (context, value, child) {
           return Scaffold(
             body: value
@@ -47,7 +39,7 @@ class CategoryAdd extends StatelessWidget {
                           width: 300,
                           padding: const EdgeInsets.all(20),
                           child: Form(
-                              key: _formKey,
+                              key: formKey,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               child: Column(
@@ -67,16 +59,17 @@ class CategoryAdd extends StatelessWidget {
                                     height: 30,
                                   ),
                                   Obx(() {
-                                    final categoryDetails =
-                                        categoryController.availableCategory;
-                                    isLoading = ValueNotifier(false);
+                                    categoryController.isLoading =
+                                        ValueNotifier(false);
                                     return DropdownButtonFormField(
+                                      value: categoryDetails[0],
+
+                                      onSaved: (value) => categoryController.selectedCategory.value = value!,
                                       style:
                                           const TextStyle(color: Colors.black),
                                       decoration: InputDecoration(
                                           labelText: "Category",
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
+                                          enabledBorder: OutlineInputBorder(borderRadius:
                                                 BorderRadius.circular(10),
                                             borderSide:
                                                 BorderSide(color: Colors.black),
@@ -101,10 +94,8 @@ class CategoryAdd extends StatelessWidget {
                                             borderSide:
                                                 BorderSide(color: Colors.red),
                                           )),
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
                                       validator: (value) {
-                                        print(value);
                                         if (value == null || value.isEmpty) {
                                           return "Required Field";
                                         }
@@ -120,7 +111,9 @@ class CategoryAdd extends StatelessWidget {
                                       }).toList(),
                                       icon: const Icon(Icons.arrow_drop_down),
                                       elevation: 0,
-                                      onChanged: (value) {},
+                                      onChanged: (value) {
+                                        categoryController.selectedCategory.value = value!;
+                                      },
                                     );
                                   }),
                                   SizedBox(
@@ -130,8 +123,9 @@ class CategoryAdd extends StatelessWidget {
                                       height: 30,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          if (_formKey.currentState!.validate()) {
-
+                                          if (formKey.currentState!.validate()) {
+                                            // categoryController.setSelectedCategory(value);
+                                            Get.to(() => Quiz());
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(

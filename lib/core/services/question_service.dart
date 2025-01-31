@@ -6,12 +6,14 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 class QuestionService {
+
+
   Future<void> createTable() async {
-     var localDatabase = await LocalDatabase.getInstance();
-     List<Map<String,Object?>>>> table = await localDatabase.getTableData(tableName: Globals.questionTable);
-    if(table.){
-      try{
-        var tableDetails = TableDefinition(tableName: Globals.questionTable, columns: {
+    var isTableExists = await LocalDatabase.isTableExists(Globals.questionTable);
+    if (!isTableExists) {
+      try {
+        var tableDetails =
+            TableDefinition(tableName: Globals.questionTable, columns: {
           'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
           'question': 'TEXT NOT NULL',
           'option1': 'TEXT NOT NULL',
@@ -19,13 +21,14 @@ class QuestionService {
           'option3': 'TEXT NOT NULL',
           'option4': 'TEXT NOT NULL',
           'correctAnswerIndex': 'INTEGER NOT NULL',
-        }, foreignKeys: ["FOREIGN KEY(quizz_id) REFERENCES ${Globals.quizTable}(id)"], indices: []);
+        }, foreignKeys: [
+          "FOREIGN KEY(quizz_id) REFERENCES ${Globals.quizTable}(id)"
+        ], indices: []);
         await LocalDatabase.createTable(tableDefinition: tableDetails);
-      }catch(error){
+      } catch (error) {
         throw Exception("Failed to create table");
       }
     }
-
   }
 
   Future<Database> openMyDatabase() async {
@@ -55,24 +58,26 @@ class QuestionService {
     }
   }
 
-  // Future<int> insertQuestion(Questions questions) async {
-  //   try {
-  //     final db = await database;
-  //     int i = await db.insert(
-  //       'Questions',
-  //       questions.toMap(),
-  //     );
-  //     return i;
-  //   } catch (error) {
-  //     throw Exception("Failed to insert the question");
-  //   }
-  // }
 
-  // Future<List<Questions>> getAllQuestions() async {
-  //   final db = await database;
-  //
-  //   final List<Map<String, Object?>> questionsMap = await db.query('Questions');
-  //
-  //   return [];
-  // }
+
+// Future<int> insertQuestion(Questions questions) async {
+//   try {
+//     final db = await database;
+//     int i = await db.insert(
+//       'Questions',
+//       questions.toMap(),
+//     );
+//     return i;
+//   } catch (error) {
+//     throw Exception("Failed to insert the question");
+//   }
+// }
+
+// Future<List<Questions>> getAllQuestions() async {
+//   final db = await database;
+//
+//   final List<Map<String, Object?>> questionsMap = await db.query('Questions');
+//
+//   return [];
+// }
 }
