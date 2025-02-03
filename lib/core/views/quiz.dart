@@ -8,18 +8,18 @@ class Quiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CategoryController categoryController =
-        Get.find<CategoryController>();
+    var arguments = Get.arguments;
+    // final CategoryController categoryController =
+    //     Get.find<CategoryController>();
     final QuizController quizController = Get.find<QuizController>();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     final TextEditingController quizNameController = TextEditingController();
     final TextEditingController noOfQuestions = TextEditingController();
-    final TextEditingController quizDurationController =
-        TextEditingController();
-    final TextEditingController categoryControllerText =
-        TextEditingController();
+    final TextEditingController quizDurationController = TextEditingController();
+    // final TextEditingController categoryControllerText = TextEditingController();
 
-    categoryControllerText.text = categoryController.selectedCategory.value;
+    // categoryControllerText.text = categoryController.selectedCategory.value;
 
     return Scaffold(
       body: Center(
@@ -50,8 +50,7 @@ class Quiz extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       Obx(() => TextFormField(
-                            initialValue:
-                                categoryController.selectedCategory.value,
+                            initialValue:arguments,
                             readOnly: true,
                             style: const TextStyle(color: Colors.black),
                             decoration: _buildInputDecoration(

@@ -52,8 +52,7 @@ class CategoryAdd extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   Obx(() {
-                    final categoryDetails =
-                        categoryController.availableCategory;
+                    final categoryDetails = categoryController.availableCategory;
                     return DropdownButtonFormField(
                       value: categoryDetails.isNotEmpty
                           ? categoryDetails[0]
