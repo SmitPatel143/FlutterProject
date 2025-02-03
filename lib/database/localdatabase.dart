@@ -15,7 +15,7 @@ class LocalDatabase {
     return localDatabase!;
   }
 
-  static Future<Database> get _getDatabase async {
+  static Future<Database> get getDatabase async {
     database ??= await _openDatabaseConnection();
     return database!;
   }
@@ -34,7 +34,7 @@ class LocalDatabase {
   static Future<void> createTable(
       {required TableDefinition tableDefinition}) async {
     try {
-      final Database database = await _getDatabase;
+      final Database database = await getDatabase;
       final List<String> columnDefinitions =
           tableDefinition.columns.entries.map((entry) {
         return '${entry.key} ${entry.value}';
@@ -62,7 +62,7 @@ class LocalDatabase {
   static Future<int> insertData(
       {required String tableName, required Map<String, Object?> data}) async {
     try {
-      final Database database = await _getDatabase;
+      final Database database = await getDatabase;
       return database.insert(tableName, data);
     } catch (error) {
       throw Exception("Failed to insert data into $tableName: $error");
@@ -72,7 +72,7 @@ class LocalDatabase {
   static Future<List<Map<String, Object?>>> getTableData<T>(
       {required String tableName, String? condition}) async {
     try {
-      final Database database = await _getDatabase;
+      final Database database = await getDatabase;
       return await database.query(tableName, where: condition);
     } catch (error) {
       throw Exception("Failed to get table data of $tableName: $error");
@@ -81,7 +81,7 @@ class LocalDatabase {
 
   static Future<bool> isTableExists(String tableName) async {
     try {
-      final Database database = await _getDatabase;
+      final Database database = await getDatabase;
       final result = await database.rawQuery(
           "SELECT COUNT(*) as count FROM sqlite_master WHERE type='table' AND name='$tableName'");
       print("Existing Table result $result");
@@ -91,36 +91,45 @@ class LocalDatabase {
     }
   }
 
-  static Future<void> createQuizTable() async {
-    final database = await _getDatabase;
-    await database.execute('''
-      CREATE TABLE IF NOT EXISTS ${Globals.quizTable} (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        timeLimit DATETIME NOT NULL,
-        noOfQuestions INTEGER NOT NULL,
-        category_id INTEGER NOT NULL,
-        FOREIGN KEY(category_id) REFERENCES ${Globals.categoryTable}(id)
-      )
-    ''');
-    print(isTableExists(Globals.quizTable));
+  static Future<List<Map<String, Object?>>> getTableDataByQuery(String query) async {
+    try {
+      final Database database = await getDatabase;
+      return await database.rawQuery(query);
+    } catch (error) {
+      throw Exception("Failed to get table data : $error");
+    }
   }
 
-  static Future<void> createQuestionsTable() async {
-    final database = await _getDatabase;
-    await database.execute('''
-      CREATE TABLE IF NOT EXISTS ${Globals.questionTable} (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        question TEXT NOT NULL,
-        option1 TEXT NOT NULL,
-        option2 TEXT NOT NULL,
-        option3 TEXT NOT NULL,
-        option4 TEXT NOT NULL,
-        correctAnswerIndex INTEGER NOT NULL,
-        quizzes_id INTEGER NOT NULL,
-        FOREIGN KEY(quizzes_id) REFERENCES ${Globals.quizTable}(id)
-      )
-    ''');
+  // static Future<void> createQuizTable() async {
+  //   final database = await _getDatabase;
+  //   await database.execute('''
+  //     CREATE TABLE IF NOT EXISTS ${Globals.quizTable} (
+  //       id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //       name TEXT NOT NULL,
+  //       timeLimit DATETIME NOT NULL,
+  //       noOfQuestions INTEGER NOT NULL,
+  //       category_id INTEGER NOT NULL,
+  //       FOREIGN KEY(category_id) REFERENCES ${Globals.categoryTable}(id)
+  //     )
+  //   ''');
+  //   print(isTableExists(Globals.quizTable));
+  // }
 
-  }
+  // static Future<void> createQuestionsTable() async {
+  //   final database = await _getDatabase;
+  //   await database.execute('''
+  //     CREATE TABLE IF NOT EXISTS ${Globals.questionTable} (
+  //       id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //       question TEXT NOT NULL,
+  //       option1 TEXT NOT NULL,
+  //       option2 TEXT NOT NULL,
+  //       option3 TEXT NOT NULL,
+  //       option4 TEXT NOT NULL,
+  //       correctAnswerIndex INTEGER NOT NULL,
+  //       quizzes_id INTEGER NOT NULL,
+  //       FOREIGN KEY(quizzes_id) REFERENCES ${Globals.quizTable}(id)
+  //     )
+  //   ''');
+  //
+  // }
 }

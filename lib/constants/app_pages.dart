@@ -10,6 +10,7 @@ import 'package:flutter_project/core/views/create_quiz.dart';
 import 'package:flutter_project/core/views/homepage.dart';
 import 'package:flutter_project/core/views/add_questions.dart';
 import 'package:flutter_project/core/views/add_quiz.dart';
+import 'package:flutter_project/core/views/view_quiz.dart';
 import 'package:get/get.dart';
 
 class AppPages {
@@ -22,12 +23,18 @@ class AppPages {
   static const String quizResult = "/quizResult";
   static const String questions = "/questions";
   static const String createQuiz = "/createQuiz";
+  static const String viewQuiz = "/viewQuiz";
 
   static final routes = [
     GetPage(
       name: home,
       page: () => const HomePage(),
       binding: HomeBindings(),
+    ),
+    GetPage(
+      name: viewQuiz,
+      page: () => const ViewQuiz(),
+      binding: null,
     ),
     GetPage(
         name: category,
@@ -38,11 +45,6 @@ class AppPages {
       page: () => const Quiz(),
       binding: QuizBindings(),
     ),
-    // GetPage(
-    //   name: questions,
-    //   page: () => const Questions(),
-    //   binding: QuestionBinding(),
-    // ),
     GetPage(
       name: createQuiz,
       page: () =>  CreateQuiz(),
@@ -51,7 +53,7 @@ class AppPages {
   ];
 
   static final List<Widget> tabPages = [
-    const HomeTab(),
+    const ViewQuiz(),
     const CategoryTab(),
     const QuizTab(),
   ];
