@@ -1,9 +1,7 @@
 import 'package:flutter_project/constants/globals.dart';
 import 'package:flutter_project/core/models/category.dart';
-import 'package:flutter_project/database/table_definition.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart' as path;
 import 'package:flutter_project/database/localdatabase.dart';
+import 'package:flutter_project/database/table_definition.dart';
 
 class CategoryService {
   static final CategoryService _instance = CategoryService._internal();
@@ -44,8 +42,13 @@ class CategoryService {
 
   Future<List<Category>> getAllCategories() async {
     try {
-      var data =
-          await LocalDatabase.getTableData(tableName: Globals.categoryTable)
+      insertCategory(Category.name("Mathematics"));
+      insertCategory(Category.name("Physics"));
+      insertCategory(Category.name("Chemistry"));
+      insertCategory(Category.name("Economics"));
+      insertCategory(Category.name("English"));
+
+      var data = await LocalDatabase.getTableData(tableName: Globals.categoryTable)
               .then((list) =>
                   list.map((category) => Category.fromMap(category)).toList());
       return data;

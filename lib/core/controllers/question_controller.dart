@@ -7,10 +7,11 @@ class QuestionController extends GetxController {
   var option2 = "".obs;
   var option3 = "".obs;
   var option4 = "".obs;
-  var correctOptionIndex = 0.obs;
+  var correctOptionIndex = 1.obs;
   var noOfQuestion = Get.put(QuizController()).noOfQuestions.value;
 
   var currentQuestionIndex = 0.obs;
+  
 
 
 }

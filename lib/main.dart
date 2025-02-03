@@ -1,39 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/View/login.dart';
+import 'package:flutter_project/constants/app_pages.dart';
+import 'package:flutter_project/core/Bindings/Home_Binding.dart';
+import 'package:flutter_project/core/controllers/BottomNavigationController.dart';
 import 'package:flutter_project/core/controllers/category_controller.dart';
-import 'package:flutter_project/core/views/add_question.dart';
-import 'package:flutter_project/core/views/category.dart';
-import 'package:flutter_project/core/views/quiz.dart';
-import 'package:flutter_project/core/views/shopping_page.dart';
-import 'package:flutter_project/core/views/signup.dart';
+import 'package:flutter_project/core/controllers/quiz_controller.dart';
+import 'package:flutter_project/core/views/homepage.dart';
 import 'package:get/get.dart';
 
-import 'core/services/category_service.dart';
-
-Future<void> main() async {
-
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.put(BottomNavigationController(), permanent: true);
+  Get.put(CategoryController(), permanent: true);
+  Get.put(QuizController(), permanent: true);
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: CategoryAdd()
-
-          // bottomNavigationBar: BottomNavBar(
-          //   currentIndex: _selectedIndex,
-          //   onTap: _onItemTapped,
-          // ),
-          ),
+      initialRoute: AppPages.home,
+      getPages: AppPages.routes,
+      initialBinding: HomeBindings(),
     );
   }
 }

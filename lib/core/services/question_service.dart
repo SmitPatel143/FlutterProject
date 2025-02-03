@@ -1,5 +1,4 @@
 import 'package:flutter_project/constants/globals.dart';
-import 'package:flutter_project/core/models/questions.dart';
 import 'package:flutter_project/database/localdatabase.dart';
 import 'package:flutter_project/database/table_definition.dart';
 import 'package:path/path.dart' as path;
