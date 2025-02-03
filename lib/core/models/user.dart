@@ -27,5 +27,4 @@ class User {
       email: map['email'],
       password: map['password'],
     );
-  }
-}
+  }}

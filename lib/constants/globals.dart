@@ -2,7 +2,7 @@ import 'package:flutter_project/database/localdatabase.dart';
 
 class Globals {
   //localdatabase details:
-  static const String localDatabaseName = "my_database4.db";
+  static const String localDatabaseName = "my_database.db";
   static const int localDatabaseVersion = 2;
   static LocalDatabase? localDatabase;
 

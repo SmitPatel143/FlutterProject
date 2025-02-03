@@ -3,20 +3,21 @@ import "package:flutter_project/core/controllers/category_controller.dart";
 import "package:flutter_project/core/controllers/quiz_controller.dart";
 import "package:get/get.dart";
 
+import "../../constants/app_pages.dart";
+
 class Quiz extends StatelessWidget {
   const Quiz({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var arguments = Get.arguments;
-    // final CategoryController categoryController =
-    //     Get.find<CategoryController>();
+
+    final CategoryController categoryController =
+        Get.find<CategoryController>();
+    var arguments = categoryController.selectedCategory.value;
     final QuizController quizController = Get.find<QuizController>();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-    final TextEditingController quizNameController = TextEditingController();
-    final TextEditingController noOfQuestions = TextEditingController();
-    final TextEditingController quizDurationController = TextEditingController();
+
     // final TextEditingController categoryControllerText = TextEditingController();
 
     // categoryControllerText.text = categoryController.selectedCategory.value;
@@ -36,6 +37,7 @@ class Quiz extends StatelessWidget {
                   horizontal: 20,
                 ),
                 child: Form(
+                  autovalidateMode: AutovalidateMode.disabled,
                   key: formKey,
                   child: Column(
                     children: [
@@ -49,18 +51,19 @@ class Quiz extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      Obx(() => TextFormField(
-                            initialValue:arguments,
-                            readOnly: true,
-                            style: const TextStyle(color: Colors.black),
-                            decoration: _buildInputDecoration(
-                              labelText: "Category",
-                              icon: Icons.category,
-                            ),
-                          )),
+                      TextFormField(
+                        initialValue: arguments,
+                        readOnly: true,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: _buildInputDecoration(
+                          labelText: "Category",
+                          icon: Icons.category,
+                        ),
+                      ),
                       const SizedBox(height: 30),
                       TextFormField(
-                        controller: quizNameController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: quizController.quizNameController,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
                           labelText: "Quiz-name",
@@ -75,7 +78,8 @@ class Quiz extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       TextFormField(
-                        controller: quizDurationController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: quizController.quizDurationController,
                         keyboardType: TextInputType.number,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
@@ -83,38 +87,72 @@ class Quiz extends StatelessWidget {
                           icon: Icons.timeline,
                           hintText: "Quiz duration in minutes",
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter quiz duration";
+                          }
+                          var minutes = int.tryParse(value);
+                          if (minutes! < 0 || minutes > 180) {
+                            return "Quiz duration must be between 0 and 180 minutes";
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 30),
                       TextFormField(
-                        controller: noOfQuestions,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: quizController.noOfQuestions,
                         keyboardType: TextInputType.number,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
                           labelText: "No Of Questions",
                           icon: Icons.question_answer,
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter no of questions";
+                          }
+                          var noOfQuestions = int.tryParse(value);
+                          if (noOfQuestions! < 0 || noOfQuestions > 100) {
+                            return "No of questions must be between 0 and 100";
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            quizController.quizName.value =
-                                quizNameController.text;
-                            quizController.quizTimeLimit.value =
-                                int.parse(quizDurationController.text);
-                            quizController.noOfQuestions.value =
-                                int.parse(noOfQuestions.text);
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                var navigation = Get.back();
+                              },
 
-                            Get.toNamed("/questions", arguments: {
-                              "quizName": quizController.quizName.value,
-                              "timeLimit": quizController.quizTimeLimit.value,
-                              "noOfQuestions":
-                                  quizController.noOfQuestions.value,
-                            });
-                          }
-                        },
-                        child: const Text("Next"),
-                      ),
+                              child: const Text("Back"),
+                            ),
+                          ),
+                          SizedBox(width: 20,),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                print("Inside the form validation");
+                                // quizController.quizName.value =
+                                //     quizController.quizNameController.text;
+//                                 var quizTimeLimit =
+//                                     int.parse(quizController.quizDurationController.text);
+//                                var noOfQuestions =
+//                                     int.parse(quizController.noOfQuestions.text);
+// //arguments: {"noOfQuestions": noOfQuestions, "quizTimeLimit" : quizTimeLimit}
+                                var navigation = Get.toNamed(
+                                  AppPages.createQuiz,
+                                );
+                              }
+                            },
+                            child: const Text("Next"),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),

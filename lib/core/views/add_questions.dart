@@ -5,23 +5,30 @@ import "package:flutter_project/core/controllers/category_controller.dart";
 import "package:flutter_project/core/controllers/question_controller.dart";
 import "package:flutter_project/core/controllers/quiz_controller.dart";
 import "package:get/get.dart";
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import "package:flutter_project/core/models/questions.dart";
 
-class Questions extends StatelessWidget {
-  Questions({super.key});
+class Questions extends StatefulWidget {
+  final int index;
 
-  final _formKey = GlobalKey<FormState>();
-  final _questionController = TextEditingController();
-  final _option1Controller = TextEditingController();
-  final _option2Controller = TextEditingController();
-  final _option3Controller = TextEditingController();
-  final _option4Controller = TextEditingController();
-  final _correctOptionIndexController = TextEditingController();
-  final questionController = Get.put(QuestionController());
+  const Questions({super.key, required this.index});
+
+  @override
+  State<Questions> createState() => _QuestionsState();
+}
+
+class _QuestionsState extends State<Questions> {
+  final formKey = GlobalKey<FormState>();
+  var question = TextEditingController();
+  var option1 = TextEditingController();
+  var option2 = TextEditingController();
+  var option3 = TextEditingController();
+  var option4 = TextEditingController();
+  var correctOptionIndex = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final questionController = Get.find<QuestionController>();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -40,26 +47,27 @@ class Questions extends StatelessWidget {
                   horizontal: 20,
                 ),
                 child: Form(
-                  key: _formKey,
+                  key: formKey,
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Obx(() =>
-                       Text(
-                        "Question - ${questionController.correctOptionIndex.value}",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                      Obx(
+                        () => Text(
+                          "Question - ${questionController.currentQuestionIndex.value + 1} ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
                         ),
-                      )),
+                      ),
                       const SizedBox(height: 30),
                       TextFormField(
-                        controller: _questionController,
+                        controller: question,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
@@ -75,7 +83,7 @@ class Questions extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       TextFormField(
-                        controller: _option1Controller,
+                        controller: option1,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
@@ -83,14 +91,10 @@ class Questions extends StatelessWidget {
                           icon: Icons.question_answer,
                         ),
                         validator: (value) {
-                          if (value == null || value
-                              .trim()
-                              .isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Please enter option-1";
                           }
-                          if (value
-                              .trim()
-                              .length > 200) {
+                          if (value.trim().length > 200) {
                             return "Option-1 cannot exceed 200 characters";
                           }
                           return null;
@@ -98,7 +102,7 @@ class Questions extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        controller: _option2Controller,
+                        controller: option2,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
@@ -106,14 +110,10 @@ class Questions extends StatelessWidget {
                           icon: Icons.question_answer,
                         ),
                         validator: (value) {
-                          if (value == null || value
-                              .trim()
-                              .isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Please enter option-2";
                           }
-                          if (value
-                              .trim()
-                              .length > 200) {
+                          if (value.trim().length > 200) {
                             return "Option-2 cannot exceed 200 characters";
                           }
                           return null;
@@ -121,7 +121,7 @@ class Questions extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        controller: _option3Controller,
+                        controller: option3,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
@@ -129,14 +129,10 @@ class Questions extends StatelessWidget {
                           icon: Icons.question_answer,
                         ),
                         validator: (value) {
-                          if (value == null || value
-                              .trim()
-                              .isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Please enter option-3";
                           }
-                          if (value
-                              .trim()
-                              .length > 200) {
+                          if (value.trim().length > 200) {
                             return "Option-3 cannot exceed 200 characters";
                           }
                           return null;
@@ -144,7 +140,7 @@ class Questions extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        controller: _option4Controller,
+                        controller: option4,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
@@ -152,14 +148,10 @@ class Questions extends StatelessWidget {
                           icon: Icons.question_answer,
                         ),
                         validator: (value) {
-                          if (value == null || value
-                              .trim()
-                              .isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Please enter option-4";
                           }
-                          if (value
-                              .trim()
-                              .length > 200) {
+                          if (value.trim().length > 200) {
                             return "Option-4 cannot exceed 200 characters";
                           }
                           return null;
@@ -167,7 +159,7 @@ class Questions extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        controller: _correctOptionIndexController,
+                        controller: correctOptionIndex,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         style: const TextStyle(color: Colors.black),
                         decoration: _buildInputDecoration(
@@ -175,9 +167,7 @@ class Questions extends StatelessWidget {
                           icon: Icons.question_answer,
                         ),
                         validator: (value) {
-                          if (value == null || value
-                              .trim()
-                              .isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Index is required";
                           }
                           int? index = int.tryParse(value.trim());
@@ -195,7 +185,8 @@ class Questions extends StatelessWidget {
                             height: 30,
                             child: ElevatedButton(
                               onPressed: () {
-                                Get.back();
+                                questionController.pageController
+                                    .jumpToPage(widget.index - 1);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -215,15 +206,30 @@ class Questions extends StatelessWidget {
                           ),
                           SizedBox(
                             height: 30,
+
                             child: ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  // quizController.quizName.value =
-                                  //     _quizNameController.text;
-                                  // quizController.quizTimeLimit.value =
-                                  //     int.parse(_quizDurationController.text);
-                                  // quizController.noOfQuestions.value =
-                                  //     int.parse(_noOfQuestions.text);
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  final quizData = QuestionModel(
+                                      option3: option3.text.trim(),
+                                      option2: option2.text.trim(),
+                                      option1: option1.text.trim(),
+                                      option4: option4.text.trim(),
+                                      correctAnswerIndex: int.tryParse(
+                                          correctOptionIndex.text) ??
+                                          1,
+                                      question: question.text.trim());
+                                  questionController.saveQuestion(
+                                      widget.index, quizData);
+                                  print(widget.index);
+
+                                  if(widget.index == int.tryParse(questionController.noOfQuestion.text)! - 1) {
+                                     var response = await questionController.submitQuiz();
+                                     print("Response inside the questions submission: ${response}");
+                                  }else{
+                                    questionController.pageController
+                                        .jumpToPage(widget.index + 1);
+                                  }
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -239,7 +245,11 @@ class Questions extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
-                              child: const Text("Next"),
+                              child: Text(
+                                widget.index == int.tryParse(questionController.noOfQuestion.text)! - 1
+                                    ? "Submit"
+                                    : "Next",
+                              ),
                             ),
                           ),
                         ],
@@ -256,10 +266,11 @@ class Questions extends StatelessWidget {
   }
 }
 
-InputDecoration _buildInputDecoration({required String labelText,
-  required IconData icon,
-  String? errorText,
-  String? hintText}) {
+InputDecoration _buildInputDecoration(
+    {required String labelText,
+    required IconData icon,
+    String? errorText,
+    String? hintText}) {
   return InputDecoration(
     labelText: labelText,
     prefixIcon: Icon(icon),

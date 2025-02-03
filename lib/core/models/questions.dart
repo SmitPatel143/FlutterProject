@@ -1,4 +1,4 @@
-class Questions {
+class QuestionModel {
   int? id;
   final String question;
   final String option1;
@@ -6,15 +6,16 @@ class Questions {
   final String option3;
   final String option4;
   final int correctAnswerIndex;
+  int? quizzes_id;
 
-
-  Questions(
+  QuestionModel(
       {required this.question,
       required this.option1,
       required this.option2,
       required this.option3,
       required this.option4,
-      required this.correctAnswerIndex});
+      required this.correctAnswerIndex,
+      this.quizzes_id});
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,6 +25,7 @@ class Questions {
       "option3": option3,
       "option4": option4,
       "correctAnswerIndex": correctAnswerIndex,
+      "quizzes_id": quizzes_id
     };
   }
 }

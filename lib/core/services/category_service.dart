@@ -42,11 +42,12 @@ class CategoryService {
 
   Future<List<Category>> getAllCategories() async {
     try {
-      insertCategory(Category.name("Mathematics"));
-      insertCategory(Category.name("Physics"));
-      insertCategory(Category.name("Chemistry"));
-      insertCategory(Category.name("Economics"));
-      insertCategory(Category.name("English"));
+      // createTable();
+      // insertCategory(Category.name("Mathematics"));
+      // insertCategory(Category.name("Physics"));
+      // insertCategory(Category.name("Chemistry"));
+      // insertCategory(Category.name("Economics"));
+      // insertCategory(Category.name("English"));
 
       var data = await LocalDatabase.getTableData(tableName: Globals.categoryTable)
               .then((list) =>

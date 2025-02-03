@@ -90,4 +90,37 @@ class LocalDatabase {
       throw Exception("Failed to check table existence: $error");
     }
   }
+
+  static Future<void> createQuizTable() async {
+    final database = await _getDatabase;
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS ${Globals.quizTable} (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        timeLimit DATETIME NOT NULL,
+        noOfQuestions INTEGER NOT NULL,
+        category_id INTEGER NOT NULL,
+        FOREIGN KEY(category_id) REFERENCES ${Globals.categoryTable}(id)
+      )
+    ''');
+    print(isTableExists(Globals.quizTable));
+  }
+
+  static Future<void> createQuestionsTable() async {
+    final database = await _getDatabase;
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS ${Globals.questionTable} (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question TEXT NOT NULL,
+        option1 TEXT NOT NULL,
+        option2 TEXT NOT NULL,
+        option3 TEXT NOT NULL,
+        option4 TEXT NOT NULL,
+        correctAnswerIndex INTEGER NOT NULL,
+        quizzes_id INTEGER NOT NULL,
+        FOREIGN KEY(quizzes_id) REFERENCES ${Globals.quizTable}(id)
+      )
+    ''');
+
+  }
 }

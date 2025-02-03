@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 class QuizController extends GetxController {
 
-    RxString quizName = "".obs;
-    RxInt quizId = 0.obs;
-    RxInt quizTimeLimit = 0.obs;
-    RxInt noOfQuestions = 0.obs;
+    final TextEditingController quizNameController = TextEditingController();
+    final TextEditingController noOfQuestions = TextEditingController();
+    final TextEditingController quizDurationController =
+    TextEditingController();
 }

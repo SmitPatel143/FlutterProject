@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_project/core/controllers/category_controller.dart";
-import "package:flutter_project/core/views/quiz.dart";
+import "package:flutter_project/core/views/add_quiz.dart";
 import "package:get/get.dart";
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -52,7 +52,8 @@ class CategoryAdd extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   Obx(() {
-                    final categoryDetails = categoryController.availableCategory;
+                    final categoryDetails =
+                        categoryController.availableCategory;
                     return DropdownButtonFormField(
                       value: categoryDetails.isNotEmpty
                           ? categoryDetails[0]
@@ -91,7 +92,7 @@ class CategoryAdd extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          Get.to(() => Quiz(), arguments: {
+                          var navigation = Get.to(() => Quiz(), arguments: {
                             "selectedCategory":
                                 categoryController.selectedCategory.value
                           });

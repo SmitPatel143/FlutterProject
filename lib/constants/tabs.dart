@@ -1,8 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/core/controllers/category_controller.dart';
-import 'package:flutter_project/core/views/category.dart';
-import 'package:flutter_project/core/views/quiz.dart';
+import 'package:flutter_project/core/views/add_category.dart';
+import 'package:flutter_project/core/views/add_quiz.dart';
 import 'package:get/get.dart';
 
 class HomeTab extends StatelessWidget {
