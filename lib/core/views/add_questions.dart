@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 import "package:flutter_project/constants/app_pages.dart";
-import "package:flutter_project/core/controllers/category_controller.dart";
 import "package:flutter_project/core/controllers/question_controller.dart";
-import "package:flutter_project/core/controllers/quiz_controller.dart";
 import "package:get/get.dart";
 import "package:flutter_project/core/models/questions.dart";
 
@@ -222,11 +218,9 @@ class _QuestionsState extends State<Questions> {
                                       question: question.text.trim());
                                   questionController.saveQuestion(
                                       widget.index, quizData);
-                                  print(widget.index);
 
                                   if(widget.index == int.tryParse(questionController.noOfQuestion.text)! - 1) {
                                      var response = await questionController.submitQuiz();
-                                     print("Response of the submission: ${response}");
                                     SnackBar(
                                        content: Text("Quiz added successfully"),
                                        backgroundColor: Colors.green,

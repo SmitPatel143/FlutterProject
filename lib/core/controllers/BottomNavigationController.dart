@@ -1,5 +1,4 @@
 import 'package:flutter_project/constants/app_pages.dart';
-import 'package:flutter_project/constants/globals.dart';
 import 'package:get/get.dart';
 
 class BottomNavigationController extends GetxController {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/constants/app_pages.dart';
-import 'package:flutter_project/constants/globals.dart';
 import 'package:flutter_project/core/controllers/quiz_submission_controller.dart';
-import 'package:flutter_project/core/views/homepage.dart';
 import 'package:get/get.dart';
 
 class StartQuiz extends StatefulWidget {

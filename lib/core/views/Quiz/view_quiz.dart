@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/core/controllers/viewQuiz_controller.dart';
 import 'package:flutter_project/core/models/quiz_response.dart';
-import 'package:flutter_project/core/views/Quiz/start_quiz.dart';
 import 'package:flutter_project/core/views/Quiz/start_quiz_builder.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';

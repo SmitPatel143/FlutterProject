@@ -1,8 +1,8 @@
 import 'package:flutter_project/constants/globals.dart';
 import 'package:flutter_project/core/models/questions.dart';
-import 'package:flutter_project/core/models/quiz.dart';
+
 import 'package:flutter_project/core/models/quiz_response.dart';
-import 'package:flutter_project/core/views/add_questions.dart';
+
 import 'package:flutter_project/database/localdatabase.dart';
 import 'package:get/get.dart';
 import 'package:sqflite_common/sqlite_api.dart';
@@ -10,8 +10,7 @@ import 'package:sqflite_common/sqlite_api.dart';
 class ViewQuizController extends GetxController {
   static final Future<Database> _database = LocalDatabase.getDatabase;
 
-   Future<List<QuizResponse>> getAvailableQuizzes() async {
-
+  Future<List<QuizResponse>> getAvailableQuizzes() async {
     String query =
         "SELECT quiz.id, quiz.name, quiz.noOfQuestions, quiz.timeLimit, quiz.category_id, category.name AS category_name FROM ${Globals.quizTable} quiz LEFT JOIN ${Globals.categoryTable} category ON quiz.category_id = category.id";
     var quizzData = await (await _database).rawQuery(query);

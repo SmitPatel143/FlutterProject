@@ -4,8 +4,6 @@ import "package:flutter_project/core/controllers/quiz_controller.dart";
 import "package:flutter_project/core/views/create_quiz.dart";
 import "package:get/get.dart";
 
-import "../../../constants/app_pages.dart";
-
 class Quiz extends StatelessWidget {
   const Quiz({super.key});
 

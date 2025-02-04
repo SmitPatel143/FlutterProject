@@ -1,6 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
-import "package:flutter_project/View/login.dart";
 import "package:flutter_project/core/views/add_category.dart";
 import "package:flutter_project/core/views/searchbar.dart";
 import "package:flutter_project/core/views/Quiz/view_quiz.dart";

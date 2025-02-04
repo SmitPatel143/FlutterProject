@@ -17,7 +17,6 @@ class SignUp extends StatelessWidget {
             email: _emailController.text.trim(),
             password: _passwordController.text.trim());
 
-    print(userCredentials);
   }
 
   @override
