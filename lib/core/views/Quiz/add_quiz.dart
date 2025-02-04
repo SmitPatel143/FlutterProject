@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
 import "package:flutter_project/core/controllers/category_controller.dart";
 import "package:flutter_project/core/controllers/quiz_controller.dart";
+import "package:flutter_project/core/views/create_quiz.dart";
 import "package:get/get.dart";
 
-import "../../constants/app_pages.dart";
+import "../../../constants/app_pages.dart";
 
 class Quiz extends StatelessWidget {
   const Quiz({super.key});
@@ -16,11 +17,6 @@ class Quiz extends StatelessWidget {
     var arguments = categoryController.selectedCategory.value;
     final QuizController quizController = Get.find<QuizController>();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-
-    // final TextEditingController categoryControllerText = TextEditingController();
-
-    // categoryControllerText.text = categoryController.selectedCategory.value;
 
     return Scaffold(
       body: Center(
@@ -137,16 +133,7 @@ class Quiz extends StatelessWidget {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 print("Inside the form validation");
-                                // quizController.quizName.value =
-                                //     quizController.quizNameController.text;
-//                                 var quizTimeLimit =
-//                                     int.parse(quizController.quizDurationController.text);
-//                                var noOfQuestions =
-//                                     int.parse(quizController.noOfQuestions.text);
-// //arguments: {"noOfQuestions": noOfQuestions, "quizTimeLimit" : quizTimeLimit}
-                                var navigation = Get.toNamed(
-                                  AppPages.createQuiz,
-                                );
+                                var navigation = Get.to(() => const CreateQuiz());
                               }
                             },
                             child: const Text("Next"),
@@ -162,6 +149,7 @@ class Quiz extends StatelessWidget {
         ),
       ),
     );
+
   }
 }
 

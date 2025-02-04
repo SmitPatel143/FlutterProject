@@ -28,4 +28,19 @@ class QuestionModel {
       "quizzes_id": quizzes_id
     };
   }
+
+  factory QuestionModel.fromMap(Map<String, dynamic> map) {
+    return QuestionModel(
+        question: map["question"],
+        option1: map["option1"],
+        option2: map["option2"],
+        option3: map["option3"],
+        option4: map["option4"],
+        correctAnswerIndex: map["correctAnswerIndex"],
+        quizzes_id: map["quizzes_id"]);
+  }
+
+  List<String> getOptions() {
+    return [option1, option2, option3, option4];
+  }
 }

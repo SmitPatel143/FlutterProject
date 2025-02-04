@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
+import "package:flutter_project/constants/app_pages.dart";
 import "package:flutter_project/core/controllers/category_controller.dart";
-import "package:flutter_project/core/views/add_quiz.dart";
+import "package:flutter_project/core/views/Quiz/add_quiz.dart";
 import "package:get/get.dart";
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -92,10 +93,7 @@ class CategoryAdd extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          var navigation = Get.to(() => Quiz(), arguments: {
-                            "selectedCategory":
-                                categoryController.selectedCategory.value
-                          });
+                          var navigation = Get.to(() => Quiz());
                         }
                       },
                       style: ElevatedButton.styleFrom(

@@ -1,9 +1,6 @@
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
-import 'package:fluttertoast/fluttertoast.dart';
-import "package:flutter_project/core/services/user_service.dart";
 import "package:get/get.dart";
-
-import "../models/user.dart";
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
@@ -13,6 +10,15 @@ class SignUp extends StatelessWidget {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  void createUserWithEmailAndPassword() async {
+    final userCredentials = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+
+    print(userCredentials);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,7 @@ class SignUp extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(vertical: 130, horizontal: 30),
               child: LayoutBuilder(builder: (context, constraints) {
-                double maxWidth = constraints.maxWidth > 600 ? 500 : 350;
+                double maxWidth = constraints.maxWidth > 600 ? 500 : 300;
                 return Card(
                   color: Colors.white,
                   surfaceTintColor: Colors.white10,
@@ -51,7 +57,7 @@ class SignUp extends StatelessWidget {
                                   letterSpacing: 1.5,
                                 ),
                               ),
-                              const SizedBox(height: 30),
+                              const SizedBox(height: 20),
                               Column(
                                 children: [
                                   TextFormField(
@@ -73,7 +79,7 @@ class SignUp extends StatelessWidget {
                                     },
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   TextFormField(
                                     controller: _lastNameController,
@@ -96,7 +102,7 @@ class SignUp extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               TextFormField(
                                 controller: _emailController,
@@ -116,7 +122,7 @@ class SignUp extends StatelessWidget {
                                   icon: Icons.email,
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
                               TextFormField(
                                 controller: _passwordController,
                                 validator: (value) {
@@ -134,43 +140,13 @@ class SignUp extends StatelessWidget {
                                   icon: Icons.password_sharp,
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
                               SizedBox(
                                 width: 200,
                                 child: ElevatedButton(
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        try {
-                                          var user = User(
-                                              firstName:
-                                                  _firstNameController.text,
-                                              lastName:
-                                                  _lastNameController.text,
-                                              email: _emailController.text,
-                                              password:
-                                                  _passwordController.text);
-                                          int result = await UserService().insertUser(user);
-                                          if(result > 0){
-                                            Fluttertoast.showToast(
-                                              msg: "User registered successfully! 🎉",
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.BOTTOM,
-                                              backgroundColor: Colors.green,
-                                              textColor: Colors.white,
-                                              fontSize: 16.0,
-                                            );
-                                            
-                                          }
-                                        } catch (error) {
-                                          Fluttertoast.showToast(
-                                            msg: error.toString(),
-                                            toastLength: Toast.LENGTH_LONG,
-                                            gravity: ToastGravity.TOP_RIGHT,
-                                            backgroundColor: Colors.red,
-                                            textColor: Colors.white,
-                                            fontSize: 14.0,
-                                          );
-                                        }
+                                        createUserWithEmailAndPassword();
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -187,6 +163,7 @@ class SignUp extends StatelessWidget {
                                       ),
                                     ),
                                     child: Row(
+
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const Text("SIGN UP"),
@@ -206,6 +183,39 @@ class SignUp extends StatelessWidget {
                                         )
                                       ],
                                     )),
+                              ),
+                              SizedBox(
+                                width: 250,
+                                height: 50,
+                                child: Card(
+                                  shadowColor: Colors.grey,
+                                  color: Colors.white,
+                                  surfaceTintColor: Colors.white10,
+                                  elevation: 2,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Image.asset(
+                                          'assets/images/google_logo.png',
+                                          // Make sure to add this to your pubspec.yaml
+                                          height: 24,
+                                          width: 24,
+                                        ),
+                                      ),
+                                      Expanded(
+                                          child: Text(
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Colors.black87),
+                                        "Sign up with Google",
+                                      )),
+                                    ],
+                                  ),
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,

@@ -20,4 +20,13 @@ class Quiz {
     };
   }
 
+  factory Quiz.fromMap(Map<String, dynamic> map) {
+    return Quiz(
+      name: map["name"],
+      category_id: map["category_id"],
+      timeLimit: map["timeLimit"],
+      noOfQuestions: map["noOfQuestions"],
+    );
+  }
+
 }
