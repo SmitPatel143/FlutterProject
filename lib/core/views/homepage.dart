@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_project/core/views/add_category.dart";
 import "package:flutter_project/core/views/searchbar.dart";
 import "package:flutter_project/core/views/Quiz/view_quiz.dart";
-import "package:flutter_project/core/views/signup.dart";
+import "package:flutter_project/screens/authenticate/signup.dart";
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

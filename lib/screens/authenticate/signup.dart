@@ -1,5 +1,5 @@
-import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:flutter_project/service/auth_service.dart";
 import "package:get/get.dart";
 
 class SignUp extends StatelessWidget {
@@ -11,16 +11,10 @@ class SignUp extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void createUserWithEmailAndPassword() async {
-    final userCredentials = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim());
-
-  }
-
   @override
   Widget build(BuildContext context) {
+    final auth = AuthService();
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
@@ -145,7 +139,17 @@ class SignUp extends StatelessWidget {
                                 child: ElevatedButton(
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        createUserWithEmailAndPassword();
+                                        auth.signUpWithEmailAndPassword(
+                                            email: _emailController.text,
+                                            password: _passwordController.text,
+                                            onSuccess: (success) {
+                                              Get.snackbar("success",
+                                                  success.toString());
+                                            },
+                                            onError: (error) {
+                                              Get.snackbar(
+                                                  "Error", error.toString());
+                                            });
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -162,7 +166,6 @@ class SignUp extends StatelessWidget {
                                       ),
                                     ),
                                     child: Row(
-
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const Text("SIGN UP"),
@@ -183,36 +186,45 @@ class SignUp extends StatelessWidget {
                                       ],
                                     )),
                               ),
-                              SizedBox(
-                                width: 250,
-                                height: 50,
-                                child: Card(
-                                  shadowColor: Colors.grey,
-                                  color: Colors.white,
-                                  surfaceTintColor: Colors.white10,
-                                  elevation: 2,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        child: Image.asset(
-                                          'assets/images/google_logo.png',
-                                          // Make sure to add this to your pubspec.yaml
-                                          height: 24,
-                                          width: 24,
+                              GestureDetector(
+                                onTap: () async {
+                                  await auth.signInWitGoogle(onSuccess: (success) {
+                                    Get.snackbar("success", success.toString());
+                                  }, onError: (error) {
+                                    Get.snackbar("Error", error.toString());
+                                  });
+                                },
+                                child: SizedBox(
+                                  width: 250,
+                                  height: 50,
+                                  child: Card(
+                                    shadowColor: Colors.grey,
+                                    color: Colors.white,
+                                    surfaceTintColor: Colors.white10,
+                                    elevation: 2,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Image.asset(
+                                            'assets/images/google_logo.png',
+                                            // Make sure to add this to your pubspec.yaml
+                                            height: 24,
+                                            width: 24,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.black87),
-                                        "Sign up with Google",
-                                      )),
-                                    ],
+                                        Expanded(
+                                            child: Text(
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                  color: Colors.black87),
+                                              "Sign up with Google",
+                                            )),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
