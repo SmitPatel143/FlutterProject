@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
-import "package:flutter_project/service/auth_service.dart";
+import "package:flutter_project/constants/app_pages.dart";
+import "package:flutter_project/core/views/homepage.dart";
+import "package:flutter_project/service/authenticate/auth_service.dart";
 import "package:get/get.dart";
 
 class SignUp extends StatelessWidget {
@@ -140,11 +142,14 @@ class SignUp extends StatelessWidget {
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         auth.signUpWithEmailAndPassword(
+                                            name: "${_firstNameController.text} ${_lastNameController.text}",
                                             email: _emailController.text,
                                             password: _passwordController.text,
                                             onSuccess: (success) {
                                               Get.snackbar("success",
                                                   success.toString());
+                                              Get.offAllNamed(AppPages.home);
+                                              // Get.offAll(() => const HomePage());
                                             },
                                             onError: (error) {
                                               Get.snackbar(
@@ -188,10 +193,12 @@ class SignUp extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  await auth.signInWitGoogle(onSuccess: (success) {
-                                    Get.snackbar("success", success.toString());
+                                  await auth.signInWithGoogle(
+                                      onSuccess: (success) {
+                                    showSnackBar("Success", "Registration done");
+                                    Get.offAll(() => const HomePage());
                                   }, onError: (error) {
-                                    Get.snackbar("Error", error.toString());
+                                    showSnackBar("Error", "Authentication Failed");
                                   });
                                 },
                                 child: SizedBox(
@@ -203,7 +210,8 @@ class SignUp extends StatelessWidget {
                                     surfaceTintColor: Colors.white10,
                                     elevation: 2,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -217,20 +225,71 @@ class SignUp extends StatelessWidget {
                                         ),
                                         Expanded(
                                             child: Text(
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
-                                                  color: Colors.black87),
-                                              "Sign up with Google",
-                                            )),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: Colors.black87),
+                                          "Sign up with Google",
+                                        )),
+                                        SizedBox(
+                                          height: 20,
+                                        )
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 20,
-                              )
+                                height: 10,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  await auth.signInWithMicrosoft(
+                                      onSuccess: (success) {
+                                        showSnackBar("Success", "Registration done");
+                                        Get.offAll(() => const HomePage());
+                                      }, onError: (error) {
+                                    showSnackBar("Error", "Authentication Failed");
+                                  });
+                                },
+                                child: SizedBox(
+                                  width: 250,
+                                  height: 50,
+                                  child: Card(
+                                    shadowColor: Colors.grey,
+                                    color: Colors.white,
+                                    surfaceTintColor: Colors.white10,
+                                    elevation: 2,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Image.asset(
+                                            'assets/images/microsoft_logo.png',
+                                            // Make sure to add this to your pubspec.yaml
+                                            height: 24,
+                                            width: 24,
+                                          ),
+                                        ),
+                                        Expanded(
+                                            child: Text(
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                  color: Colors.black87),
+                                              "Sign up with Microsoft",
+                                            )),
+                                        SizedBox(
+                                          height: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           )),
                     ),
@@ -264,5 +323,37 @@ InputDecoration _buildInputDecoration(
       borderSide: BorderSide(color: Colors.red, width: 2),
       borderRadius: BorderRadius.circular(10),
     ),
+  );
+}
+
+SnackbarController showSnackBar(String title, String message) {
+  return Get.snackbar(
+    title,
+    message,
+    snackPosition: SnackPosition.TOP,
+    backgroundColor:
+        title == "Error" ? Colors.red.shade100 : Colors.green.shade100,
+    colorText: title == "Error" ? Colors.red.shade900 : Colors.green.shade900,
+    borderRadius: 10,
+    margin: const EdgeInsets.all(15),
+    duration: const Duration(seconds: 3),
+    icon: Icon(
+      title == "Error" ? Icons.error_outline : Icons.check_circle,
+      color: title == "Error" ? Colors.red : Colors.green,
+      size: 30,
+    ),
+    boxShadows: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2),
+        blurRadius: 8,
+        offset: const Offset(0, 2),
+      ),
+    ],
+    padding: const EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 15,
+    ),
+    dismissDirection: DismissDirection.horizontal,
+    isDismissible: true,
   );
 }
