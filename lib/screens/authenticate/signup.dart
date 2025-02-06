@@ -1,10 +1,12 @@
 import "package:flutter/material.dart";
 import "package:flutter_project/constants/app_pages.dart";
 import "package:flutter_project/core/views/homepage.dart";
+import "package:flutter_project/main.dart";
 import "package:flutter_project/service/authenticate/auth_service.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:get/get.dart";
 
-class SignUp extends StatelessWidget {
+class SignUp extends ConsumerWidget {
   SignUp({super.key});
 
   final _formKey = GlobalKey<FormState>();
@@ -14,8 +16,10 @@ class SignUp extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final auth = AuthService();
+    final name = ref.watch(nameProvider);
+
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
